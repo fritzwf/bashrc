@@ -1,9 +1,9 @@
-# To the extent possible under law, the author(s) have dedicated all
-# copyright and related and neighboring rights to this software to the
-# public domain worldwide. This software is distributed without any warranty.
-# You should have received a copy of the CC0 Public Domain Dedication along
-# with this software.
-# If not, see <https://creativecommons.org/publicdomain/zero/1.0/>.
+# To the extent possible under law, the author(s) have dedicated all 
+# copyright and related and neighboring rights to this software to the 
+# public domain worldwide. This software is distributed without any warranty. 
+# You should have received a copy of the CC0 Public Domain Dedication along 
+# with this software. 
+# If not, see <https://creativecommons.org/publicdomain/zero/1.0/>. 
 
 # /etc/bash.bashrc: executed by bash(1) for interactive shells.
 
@@ -54,9 +54,19 @@ unset _warning
 #  then _ps1_symbol='\[\e[1m\]#\[\e[0m\]'
 #  else _ps1_symbol='\$'
 #fi
-[[ $(declare -p PS1 2>/dev/null | cut -c 1-11) = 'declare -x ' ]] || \
+case "$(declare -p PS1 2>/dev/null)" in
+'declare -x '*) ;; # okay
+*)
   export PS1='\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[35m\]$MSYSTEM\[\e[0m\] \[\e[33m\]\w\[\e[0m\]\n'"${_ps1_symbol}"' '
+  ;;
+esac
 unset _ps1_symbol
+
+# Uncomment to use the terminal colours set in DIR_COLORS
+# eval "$(dircolors -b /etc/DIR_COLORS)"
+
+# Fixup git-bash in non login env
+shopt -q login_shell || . /etc/profile.d/git-prompt.sh
 
 # Display directory in prompt
 #PS1='\w\$> '
@@ -76,54 +86,38 @@ errlog() {
 	grep -inr "ERROR" "$1"
 }
 
-cd /c/Dev
+cd /c/Development
 
-#alias gb='echo git branch && git branch'
-#alias lsr='echo ls-remote && ls-remote'
+alias gb='echo git branch && git branch'
+alias lsr='echo ls-remote && ls-remote'
 alias ls='ls -l --color'
-#alias ll='ls -l | less -c -e -F -X -R'
-#alias co='git checkout $1'
+alias ll='ls -l | less -c -e -F -X -R'
 alias d='ls -alF --color'
-alias lsl='ls -l | less -R'
 alias h='history'
 alias md='mkdir'
-#alias g='git'
-#alias gca='echo git commit -a && git commit -a'
-#alias mav='echo mvn install && mvn install'
 alias s='echo git status && git status'
-#alias gp='echo git pull origin && git pull origin'
+alias gp='echo git pull origin && git pull origin'
 alias gpdev='echo git pull origin develop && git pull origin develop'
 alias gprel='echo git pull origin release && git pull origin release'
 alias gpmas='echo git pull origin master && git pull origin master'
 alias f='find . -name $1'
 alias swag='swagger-cli validate $1'
-alias ngs='echo ng serve'
-#alias ngs1='echo ng serve --port 4500'
-alias dstat='echo docker ps -a -f status=running && docker ps -a -f status=running'
-alias dstart='echo docker-compose up -d && docker-compose up -d'
-alias dstop='echo docker-compose down -v && docker-compose down -v'
-alias dbuild='echo docker-compose up --build && docker-compose up --build'
+alias ngs='echo ng serve && ng serve'
 alias off='exit'
-alias resetdocker='docker-compose run maven clean install && docker-compose run maven install && docker-compose down -v && docker-compose up -d'
-alias r='echo git remote show origin && git remote show origin'
-alias cleandev='mvn clean && git checkout develop && git pull && mvn spotless:apply && mvn install'
-alias clean='mvn clean && mvn spotless:apply && mvn install'
-#alias grv='echo git remote -v && git remote -v'
-alias dprune='echo docker prune && docker container prune -f && docker volume prune -f && docker image prune -f'
-#alias npmi='echo npm install --only=dev; npm i && npm install --only=dev && npm i'
-alias prod='echo ng build --prod --base-href && ng build --prod --base-href'
+alias bashrc='source C:/Users/ffeuerbacher/AppData/Local/Programs/Git/etc/bash.bashrc'
+alias npmi='echo npm install --force && npm install --force'
 alias ngb='echo ng build && ng build'
 alias rmnpm='echo rm -rf node_modules && rm -rf node_modules'
 alias diff='echo git diff develop && git diff develop'
-alias codev='echo git checkout develop && branch=$(git branch | sed -n -e "s/^\* \(.*\)/\1/p") && git checkout develop'
-alias corel='echo git checkout release && branch=$(git branch | sed -n -e "s/^\* \(.*\)/\1/p") && git checkout release'
-alias comas='echo git checkout master && branch=$(git branch | sed -n -e "s/^\* \(.*\)/\1/p") && git checkout master'
 alias cobr='echo git checkout $branch && git checkout $branch'
-#alias tsct='echo tsc ts-tests.ts; node ts-tests.js && tsc ts-tests.ts; node ts-tests.js'
-alias cst='tsc --noEmitOnError $1'
+alias pulldev='echo git pull origin dev && git pull origin dev'
+alias pushdev='echo git push origin HEAD && git push origin HEAD'
+alias build='echo npm run buildAll && npm run buildAll'
+alias bname='echo git branch -m && git branch -m'
+alias nxgc='echo nx g c && nx g c'
+alias clone-dev='echo git clone dev && git clone https://HHSDC@dev.azure.com/HHSDC/DHS\%20Modernized\%20Applications/_git/compass-ui'
+alias stash='echo stash && git stash'
+alias pop='echo stash pop && git stash pop'
 
-# Uncomment to use the terminal colours set in DIR_COLORS
-# eval "$(dircolors -b /etc/DIR_COLORS)"
 
-# Fixup git-bash in non login env
-shopt -q login_shell || . /etc/profile.d/git-prompt.sh
+
